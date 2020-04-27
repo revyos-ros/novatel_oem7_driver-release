@@ -46,9 +46,3 @@ Versions of tools used:
 - rosdep version: `0.15.2`
 - rosdistro version: `0.8.0`
 - vcstools version: `0.1.42`
-
-
-<H1>Initialization...</H1>
-This repository is in the process of being initialized.
-
-If you are in a hurry, please refer to the https://github.com/novatel/novatel_oem7_driver repository.
