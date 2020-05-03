@@ -4,10 +4,6 @@ project(novatel_oem7_driver)
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
-# Without this line, .deb package build fails due to lpthread linking errors.
-set(novatel_oem7_msgs_DIR ${CMAKE_CURRENT_LIST_DIR}/../../install/share/novatel_oem7_msgs/cmake)
-
-
 set(BUILD_DEPS
   nodelet
   roscpp
@@ -27,7 +23,7 @@ find_package(Boost  			REQUIRED COMPONENTS system thread)
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES ${PROJET_NAME}
+  LIBRARIES ${PROJECT_NAME}
 )
 
 # Make package available as a macro to C++
@@ -41,8 +37,8 @@ include_directories(include
     ${catkin_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
     ${novatel_oem7_msgs_INCLUDE_DIRS}
-   "../../novatel_oem7/include"
-	src
+    "novatel_oem7/include"
+    src
 )
 
 
@@ -69,8 +65,13 @@ add_library(${PROJECT_NAME}
 
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+# Link to i386 or amd64 version of the Decoder. ARM is not supported.
+if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    FIND_LIBRARY(OEM7_DECODER_LIB liboem7decoder.a "novatel_oem7/bin/amd64") 
+else (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    FIND_LIBRARY(OEM7_DECODER_LIB liboem7decoder.a "novatel_oem7/bin/i386") 
+endif (CMAKE_SIZEOF_VOID_P EQUAL 8)
 
-FIND_LIBRARY(OEM7_DECODER_LIB liboem7decoder.a "../../novatel_oem7/bin") 
 message(STATUS "Linking to Oem7 Decoder at: '${OEM7_DECODER_LIB}'")
 
 target_link_libraries(${PROJECT_NAME}
@@ -129,14 +130,15 @@ catkin_install_python(PROGRAMS test/oem7_bist.py test/oem7_message_test.py
 # rostest novatel_oem7_driver your_launch_file.lauch" syntax.
 
 
-find_package(rostest REQUIRED)
-add_rostest(test/align.test)
-add_rostest(test/bestpos.test)
-add_rostest(test/ins1.test)
-add_rostest(test/ins2.test)
-add_rostest(test/rxstatus.test)
-add_rostest(test/time.test)
-
+if (CATKIN_ENABLE_TESTING)
+	find_package(rostest REQUIRED)
+	add_rostest(test/align.test)
+	add_rostest(test/bestpos.test)
+	add_rostest(test/ins1.test)
+	add_rostest(test/ins2.test)
+	add_rostest(test/rxstatus.test)
+	add_rostest(test/time.test)
+endif()
 
 
 #message("includes:")
