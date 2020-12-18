@@ -35,15 +35,12 @@ Below, OEM7 configuration and logs for each test are listed:
 
 ### bestpos
 ```
-SETINITAZIMUTH 90 5
-LOG PSRDOP2B ONTIME 4
+LOG PSRDOP2B ONTIME 2
 LOG BESTPOSB ONTIME 2
 LOG BESTVELB ONTIME 2
 LOG BESTUTMB ONTIME 2
 LOG INSPVASB ONTIME 1
-LOG INSPVAXB ONTIME 4
 ```
-
 
 ### align 
 ALIGN-capable receiver is required.  

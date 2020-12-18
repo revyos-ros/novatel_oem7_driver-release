@@ -26,7 +26,6 @@
 
 #include "novatel_oem7_driver/oem7_messages.h"
 
-
 namespace
 {
   bool is_initialized = false;
@@ -38,7 +37,6 @@ namespace
 
 namespace novatel_oem7_driver
 {
-
   enum GPSReferenceTimeStatus
   {
     GPS_REFTIME_STATUS_UNKNOWN = 20 // Refer to Oem7 manual.
@@ -106,16 +104,6 @@ namespace novatel_oem7_driver
   }
 
 
-  /**
-   * Determines if this is NMEA0183 Oem7 message
-   */
-  bool isNMEAMessage(const Oem7RawMessageIf::ConstPtr& raw_msg)
-  {
-    return std::find(OEM7_NMEA_MSGIDS.begin(),
-                     OEM7_NMEA_MSGIDS.end(),
-                     raw_msg->getMessageId()) != OEM7_NMEA_MSGIDS.end();
-  }
-
   size_t Get_INSCONFIG_NumTranslations(const INSCONFIG_FixedMem* insconfig)
   {
     const uint8_t* mem = reinterpret_cast<const uint8_t*>(insconfig) + sizeof(INSCONFIG_FixedMem);
@@ -171,8 +159,6 @@ namespace novatel_oem7_driver
 
     return reinterpret_cast<const PSRDOP2_SystemMem*>(mem);
   }
-
-
 }
 
 
