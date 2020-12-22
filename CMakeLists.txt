@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(novatel_oem7_driver)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
@@ -10,7 +10,9 @@ set(BUILD_DEPS
   std_msgs
   gps_common
   sensor_msgs
-  tf
+  nmea_msgs
+  nav_msgs
+  tf2_geometry_msgs
   message_generation
   novatel_oem7_msgs
 )
@@ -54,12 +56,14 @@ add_library(${PROJECT_NAME}
    src/oem7_message_decoder.cpp
    src/oem7_message_util.cpp
    src/oem7_ros_messages.cpp
+   src/oem7_debug_file.cpp
    src/message_handler.cpp
    src/bestpos_handler.cpp
    src/ins_handler.cpp
    src/align_handler.cpp
    src/time_handler.cpp
    src/receiverstatus_handler.cpp
+   src/nmea_handler.cpp
 )
 
 
