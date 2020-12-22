@@ -185,6 +185,8 @@ namespace novatel_oem7_driver
       aspinner_.reset(new ros::AsyncSpinner(1, &queue_));
       aspinner_->start();
 
+      sleep(0.5); // Allow all threads to start
+
       ros::AdvertiseServiceOptions ops = ros::AdvertiseServiceOptions::create<novatel_oem7_msgs::Oem7AbasciiCmd>(
                                                             "Oem7Cmd",
                                                             boost::bind(&Oem7MessageNodelet::serviceOem7AbasciiCb, this, _1, _2),
@@ -212,11 +214,11 @@ namespace novatel_oem7_driver
       {
          recvr_->write(boost::asio::buffer(req.cmd));
 
-	 static const std::string NEWLINE("\n");
-	 recvr_->write(boost::asio::buffer(NEWLINE));
+         static const std::string NEWLINE("\n");
+         recvr_->write(boost::asio::buffer(NEWLINE));
  
          boost::system_time const timeout = boost::get_system_time() + boost::posix_time::milliseconds(3 * 1000);
-	 if(rsp_sem_.timed_wait(timeout))
+         if(rsp_sem_.timed_wait(timeout))
          {
             break;
          }
@@ -225,7 +227,6 @@ namespace novatel_oem7_driver
 
       nodelet_mtx_.lock();
       rsp.rsp = rsp_;
-      rsp_.clear();
       nodelet_mtx_.unlock();
 
       if(rsp.rsp == "OK")
@@ -299,8 +300,6 @@ namespace novatel_oem7_driver
      */
     void onNewMessage(Oem7RawMessageIf::ConstPtr raw_msg)
     {
-
-
       NODELET_DEBUG_STREAM("onNewMsg: fmt= " << raw_msg->getMessageFormat()
                               <<   " type= " << raw_msg->getMessageType());
 
@@ -337,17 +336,18 @@ namespace novatel_oem7_driver
         if(raw_msg->getMessageType() == Oem7RawMessageIf::OEM7MSGTYPE_RSP) // Response
         {
           std::string rsp(raw_msg->getMessageData(0), raw_msg->getMessageData(raw_msg->getMessageDataLength()));
-
-
-          nodelet_mtx_.lock();
-          rsp_ = rsp;
-          nodelet_mtx_.unlock();
-
-          rsp_sem_.post();
+          if(rsp.find_first_not_of(" /t/r/n") != std::string::npos) // ignore all whitespace
+          {
+            nodelet_mtx_.lock();
+            rsp_ = rsp;
+            nodelet_mtx_.unlock();
+            rsp_sem_.post();
+          }
         }
         else // Log
         {
-          if(raw_msg->getMessageFormat() == Oem7RawMessageIf::OEM7MSGFMT_BINARY) // binary
+          if( raw_msg->getMessageFormat() == Oem7RawMessageIf::OEM7MSGFMT_BINARY  || // binary
+             (raw_msg->getMessageFormat() == Oem7RawMessageIf::OEM7MSGFMT_ASCII && isNMEAMessage(raw_msg)))
           {
             updateLogStatistics(raw_msg);
 
