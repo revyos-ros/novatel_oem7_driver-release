@@ -66,14 +66,14 @@ tracks:
       :{release_inc} --os-name fedora
     - git-bloom-generate -y rosrpm --prefix release/:{ros_distro} :{ros_distro} -i
       :{release_inc} --os-name rhel
-    devel_branch: null
+    devel_branch: ros1
     last_version: 2.2.0
     name: novatel_oem7_driver
     patches: null
     release_inc: '1'
     release_repo_url: null
-    release_tag: 2.2.0
+    release_tag: 3.0.0
     ros_distro: noetic
     vcs_type: git
     vcs_uri: https://github.com/novatel/novatel_oem7_driver.git
-    version: 2.2.0
+    version: 3.0.0
