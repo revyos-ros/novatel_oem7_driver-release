@@ -72,8 +72,8 @@ tracks:
     patches: null
     release_inc: '1'
     release_repo_url: null
-    release_tag: 4.0.0
+    release_tag: 4.1.0
     ros_distro: noetic
     vcs_type: git
     vcs_uri: https://github.com/novatel/novatel_oem7_driver.git
-    version: 4.0.0
+    version: 4.1.0
