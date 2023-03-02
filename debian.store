@@ -1,1 +1,1 @@
-{"trim": "", "base": "0c25888", "trimbase": "", "parent": "debian/noetic/novatel_oem7_driver", "previous": "548c732"}
+{"base": "bcea91f", "parent": "debian/noetic/novatel_oem7_driver", "previous": "ce3c94a", "trim": "", "trimbase": ""}
