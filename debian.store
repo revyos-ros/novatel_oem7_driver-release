@@ -1,1 +1,1 @@
-{"trim": "", "base": "0603f6f", "trimbase": "", "parent": "debian/melodic/novatel_oem7_driver", "previous": "c07471d"}
+{"base": "4cac35b", "parent": "debian/melodic/novatel_oem7_driver", "previous": "320ba39", "trim": "", "trimbase": ""}
