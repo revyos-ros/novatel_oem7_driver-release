@@ -1,43 +1,35 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Changelog for package novatel_oem7_driver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4.3.0 (2024-01-30)
+------------------
+* ISA 100C data changed in src/novatel_oem7_driver/config/oem7_supported_imus.yaml
 
+* CMake error fix in docker/Dockerfile.build
 
+* CONNECTIMU command and CORRIMUSB comment added in src/novatel_oem7_driver/config/std_init_commands.yaml
 
-20.0.0 (2023-04-18)
---------------------
-Formal support for Humble; functionality updated to that of ROS1 v4.2.0
+4.2.0 (2023-03-14)
+------------------
+* Minor fix to include missing header file
 
-Features:
+* CMakeLists update to suppress external project
 
-* BESTGNSSPOS, PPPPOS, TERRASTARINFO, TERRASTARSTATUS Oem7 Messages
-     
-* imu/data_raw output, source from RAWIMUSX and scaled
-    
-* HG4930_AN04, HG4930_AN04_400Hz IMUs
-  
-* Odometry Angular velocities
+4.1.0 (2023-02-27)
+------------------
+* ROS1 now builds NovAtel EDIE from external repository
 
-* Optionally, publish Odometry Transform
+4.0.0 (2022-03-04)
+------------------
+* Adding new messages
 
-* Optionally, use first valid GPSFix as Odometry Pose origin
+* Support BESTGNSSPOS log topic publish
 
+3.0.0 (2022-02-23)
+------------------
+* Adding new messages
 
-Fixes:
-
-* Rotate Odometry Twist covariances into local frame
-
-
-
-10.5.0 (2021-11-12)
---------------------
-Misc ROS2 fixes
-
-
-10.0.0 (2021-08-31)
---------------------
-Initial Support for ROS2/Foxy
-
+* Support PPPPOS, TERRASTARSTATUS, TERRASTARINFO log topic publish
 
 2.2.0 (2021-02-03)
 ------------------

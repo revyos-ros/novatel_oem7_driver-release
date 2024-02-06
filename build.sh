@@ -24,6 +24,7 @@ print_usage()
 }
 
 
+
 build_deb_pkg()
 {
    ./create-$ROS_DISTRO-package.sh
@@ -33,19 +34,6 @@ on_invalid_args()
 {
     print_usage
     exit 1
-}
-
-build()
-{
-    colcon build $DEBUG_FLAG  
-    source install/setup.sh
-}
-
-run_tests()
-{
-   source install/setup.sh
-   colcon test
-   colcon test-result
 }
 
 INSTALL=
@@ -65,7 +53,7 @@ while getopts "hcdrpft" OPT; do
             print_usage
             exit 0
             ;;
- 
+            
         c )
             CLEAN=clean
             ;;
@@ -76,7 +64,6 @@ while getopts "hcdrpft" OPT; do
             ;;
             
         r )
-	    BUILD=build
             INSTALL=install
             DEBUG_FLAG=
         	;;
@@ -88,14 +75,15 @@ while getopts "hcdrpft" OPT; do
             
         t ) 
             RUN_TESTS=run_tests
+            CATKIN_TEST_RESULTS=catkin_test_results
             ;;
 	    	
         f ) 
             CLEAN=clean
-            BUILD=build
             INSTALL=install
             BUILD_DEB_PKG=build_deb_pkg
             RUN_TESTS=run_tests
+            CATKIN_TEST_RESULTS=catkin_test_results
      	    ;;
      	    
         * ) 		
@@ -110,10 +98,10 @@ $NO_ARGS
 if [[ $CLEAN ]];
 then
 	# Remove all intermediate and temporary files.
-	rm -rf  .ros  build doc install  
+	rm -rf  .ros devel build doc install  
 	rm -rf *.deb src/*.ddeb 
-	rm -rf src/novatel_oem7_driver/debian src/novatel_oem7_driver/.obj-*
-	rm -rf src/novatel_oem7_msgs/debian src/novatel_oem7_msgs/.obj-*
+	rm -rf src/novatel_oem7_driver/debian src/novatel_oem7_driver/obj-*
+	rm -rf src/novatel_oem7_msgs/debian src/novatel_oem7_msgs/obj-*
 	rm -f src/CMakeLists.txt
 
 	if [[ -z $INSTALL && -z $RUN_TESTS && -z $BUILD_DEB_PKG ]];
@@ -123,17 +111,17 @@ then
 
 fi
 
-
-#-----------------------------------------------------------
-
 set -e
 
+# Build local artifacts
+source /opt/ros/$ROS_DISTRO/setup.bash
 
-$BUILD
-$RUN_TESTS
+catkin_make $DEBUG_FLAG $CLEAN $INSTALL $RUN_TESTS
+
+$CATKIN_TEST_RESULTS
 
 if [[ $INSTALL ]];
 then
-	#rosdoc_lite src/novatel_oem7_driver -o doc
+	rosdoc_lite src/novatel_oem7_driver -o doc
 	$BUILD_DEB_PKG
 fi

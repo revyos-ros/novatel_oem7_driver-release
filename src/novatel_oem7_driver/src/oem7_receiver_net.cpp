@@ -25,11 +25,10 @@
 #include <novatel_oem7_driver/oem7_receiver_if.hpp>
 #include <oem7_receiver.hpp>
 
+#include <ros/ros.h>
 
 #include <boost/asio.hpp>
-#include <boost/array.hpp>
 
-#include <driver_parameter.hpp>
 
 namespace novatel_oem7_driver
 {
@@ -38,8 +37,6 @@ namespace novatel_oem7_driver
   template <class T>
   class Oem7ReceiverNet: public Oem7Receiver<typename T::socket>
   {
-    using Oem7Receiver<typename T::socket>::node_;
-
     void endpoint_try_open()
     {
       if(this->endpoint_.is_open())
@@ -48,21 +45,22 @@ namespace novatel_oem7_driver
       }
 
 
-      static DriverParameter<std::string> recvr_ip_addr("oem7_ip_addr", "", *node_);
-      static DriverParameter<int>         recvr_port(   "oem7_port",    0,  *node_);
+      std::string recvr_ip_addr;
+      this->nh_.getParam("oem7_ip_addr", recvr_ip_addr);
 
-      RCLCPP_INFO_STREAM(node_->get_logger(),
-                    "Oem7Net " << (T::v4().protocol() == IPPROTO_TCP ? "TCP" : "UDP") <<
-                      "['" << recvr_ip_addr.value() << "' : " << recvr_port.value() << "]");
+      int recvr_port;
+      this->nh_.getParam("oem7_port", recvr_port);
+
+      ROS_INFO_STREAM("Oem7Net " << (T::v4().protocol() == IPPROTO_TCP ? "TCP" : "UDP") <<
+                      "['" << recvr_ip_addr << "' : " << recvr_port << "]");
 
       boost::system::error_code err;
 
       this->endpoint_.close(err); // Doesn't matter if we fail.
-      this->endpoint_.connect(typename T::endpoint(boost::asio::ip::address::from_string(recvr_ip_addr.value()), recvr_port.value()), err);
+      this->endpoint_.connect(typename T::endpoint(boost::asio::ip::address::from_string(recvr_ip_addr), recvr_port), err);
       // Proceed regardless; successful connection does not guarantee subsequent operations will succeed.
 
-      RCLCPP_INFO_STREAM(node_->get_logger(),
-                         "Oem7Net socket open: '" << this->endpoint_.is_open() << "; OS error= " << err.value());
+      ROS_INFO_STREAM("Oem7Net socket open: '" << this->endpoint_.is_open() << "; OS error= " << err.value());
 
       static const std::string CONN_PRIMER("\r\n");
       endpoint_write(boost::asio::buffer(CONN_PRIMER), err);
@@ -86,6 +84,6 @@ namespace novatel_oem7_driver
 }
 
 
-#include <pluginlib/class_list_macros.hpp>
+#include <pluginlib/class_list_macros.h>
 PLUGINLIB_EXPORT_CLASS(novatel_oem7_driver::Oem7ReceiverTcp,     novatel_oem7_driver::Oem7ReceiverIf)
 PLUGINLIB_EXPORT_CLASS(novatel_oem7_driver::Oem7ReceiverUdp,     novatel_oem7_driver::Oem7ReceiverIf)
