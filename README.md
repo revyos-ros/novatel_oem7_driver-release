@@ -1,3 +1,28 @@
+## novatel_oem7_driver (noetic) - 4.3.0-7
+
+The packages in the `novatel_oem7_driver` repository were released into the `noetic` distro by running `/usr/bin/bloom-release --rosdistro noetic --track noetic novatel_oem7_driver` on `Wed, 21 Feb 2024 00:15:22 -0000`
+
+These packages were released:
+- `novatel_oem7_driver`
+- `novatel_oem7_msgs`
+
+Version of package(s) in repository `novatel_oem7_driver`:
+
+- upstream repository: https://github.com/novatel/novatel_oem7_driver.git
+- release repository: https://github.com/novatel-gbp/novatel_oem7_driver-release.git
+- rosdistro version: `4.3.0-5`
+- old version: `4.3.0-6`
+- new version: `4.3.0-7`
+
+Versions of tools used:
+
+- bloom version: `0.11.2`
+- catkin_pkg version: `1.0.0`
+- rosdep version: `0.22.2`
+- rosdistro version: `0.9.0`
+- vcstools version: `0.1.42`
+
+
 ## novatel_oem7_driver (noetic) - 4.3.0-6
 
 The packages in the `novatel_oem7_driver` repository were released into the `noetic` distro by running `/usr/bin/bloom-release --rosdistro noetic --track noetic novatel_oem7_driver` on `Wed, 21 Feb 2024 00:00:23 -0000`
