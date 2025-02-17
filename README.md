@@ -1,3 +1,28 @@
+## novatel_oem7_driver (humble) - 20.6.0-1
+
+The packages in the `novatel_oem7_driver` repository were released into the `humble` distro by running `/home/z572/gits/revyos-ros/venv2/bin/bloom-release -r humble novatel_oem7_driver --override-release-repository-push-url git@github.com:revyos-ros/novatel_oem7_driver-release.git --edit` on `Mon, 17 Feb 2025 03:23:01 -0000`
+
+These packages were released:
+- `novatel_oem7_driver`
+- `novatel_oem7_msgs`
+
+Version of package(s) in repository `novatel_oem7_driver`:
+
+- upstream repository: https://github.com/novatel/novatel_oem7_driver.git
+- release repository: https://github.com/revyos-ros/novatel_oem7_driver-release.git
+- rosdistro version: `20.6.0-1`
+- old version: `20.1.0-1`
+- new version: `20.6.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.12.0`
+- catkin_pkg version: `1.0.0`
+- rosdep version: `0.22.2`
+- rosdistro version: `0.9.0`
+- vcstools version: `0.1.42`
+
+
 ## novatel_oem7_driver (noetic) - 4.3.0-9
 
 The packages in the `novatel_oem7_driver` repository were released into the `noetic` distro by running `/usr/bin/bloom-release --rosdistro noetic --track noetic novatel_oem7_driver` on `Wed, 21 Feb 2024 00:28:08 -0000`
